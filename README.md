@@ -25,9 +25,9 @@ AUF is:
 
 | Platform | URL | Specification |
 |---|---|---|
-| Luci QPU | [qpu.quantumcloud.one](https://qpu.quantumcloud.one) | Quantum-native, qudits d=2–10+, ACL 3.0 |
-| Luci RPU | [rpu.quantumcloud.one](https://rpu.quantumcloud.one) | Resonance-native, 1M+ resonons, room temp, ACL RP 3.0 |
-| Quantum Drive | [drive.quantumcloud.one](https://drive.quantumcloud.one) | 1 ZB, AFT-Q compression, identity-locked |
+| Luci QPU | (soon) | Quantum-native, qudits d=2–10+, ACL 3.0 |
+| Luci RPU | [(soon) | Resonance-native, 1M+ resonons, room temp, ACL RP 3.0 |
+| Quantum Drive | (soon) | 1 ZB, AFT-Q compression, identity-locked |
 | AUF Repository | github.com/aevov/afolabi-unified-framework | Full framework, CC BY 4.0 |
 
 ---
