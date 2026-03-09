@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aevov — Documentation Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10;--panel:#0f1117;--card:#13161f;--border:#1e2235;
+  --v1:#5e2fff;--v2:#8860ff;--cyan:#00d4ff;--mint:#00ffaa;
+  --gold:#ffb020;--rose:#ff3d7a;--white:#dce8ff;--mid:#6a7aaa;
+  --text:#b8c8e8;--mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
+  --green:#00e676;--orange:#ff9100;--red:#ff5252;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh;font-size:14px}
+
+/* HEADER */
+.site-header{background:var(--panel);border-bottom:1px solid var(--border);
+  padding:0 32px;display:flex;align-items:center;justify-content:space-between;
+  height:52px;position:sticky;top:0;z-index:100}
+.site-logo{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--v2);letter-spacing:1px}
+.site-logo span{color:var(--mid)}/</span>
+.site-nav{display:flex;gap:4px}
+.snav{padding:5px 12px;border-radius:5px;font-size:11px;font-family:var(--mono);
+  color:var(--mid);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .15s}
+.snav:hover,.snav.active{background:rgba(94,47,255,.15);border-color:var(--v1);color:var(--v2)}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 52px)}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);
+  padding:20px 0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
+.sb-section{padding:8px 16px 4px;font-size:9px;font-family:var(--mono);
+  color:var(--mid);letter-spacing:2px;text-transform:uppercase;margin-top:12px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:6px 16px;cursor:pointer;
+  font-size:12px;color:var(--mid);transition:all .12s;border-left:2px solid transparent}
+.sb-item:hover{color:var(--white);background:rgba(94,47,255,.06);border-left-color:var(--v1)}
+.sb-item.active{color:var(--v2);background:rgba(94,47,255,.1);border-left-color:var(--v1)}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-rp{background:var(--mint)}
+.dot-rpu{background:var(--v2)}
+.dot-isa{background:var(--cyan)}
+.dot-toe{background:var(--gold)}
+.dot-storage{background:var(--rose)}
+.dot-prior{background:var(--orange)}
+.dot-ref{background:var(--mid)}
+
+/* MAIN */
+.main{flex:1;padding:32px 40px;max-width:900px}
+
+/* DOC BLOCK */
+.doc-block{background:var(--card);border:1px solid var(--border);border-radius:8px;
+  margin-bottom:28px;overflow:hidden}
+.doc-block:hover{border-color:rgba(94,47,255,.3)}
+
+.doc-header{padding:16px 22px;border-bottom:1px solid var(--border);
+  background:rgba(94,47,255,.04);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.doc-type{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;
+  font-weight:700;letter-spacing:.8px}
+.dt-readme{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan)}
+.dt-api{background:rgba(94,47,255,.15);border:1px solid var(--v1);color:var(--v2)}
+.dt-spec{background:rgba(0,255,170,.1);border:1px solid rgba(0,255,170,.3);color:var(--mint)}
+.dt-changelog{background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.3);color:var(--gold)}
+.dt-ref{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--mid)}
+.dt-faq{background:rgba(255,61,122,.1);border:1px solid rgba(255,61,122,.3);color:var(--rose)}
+.dt-guide{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:var(--green)}
+
+.doc-title{font-size:15px;font-weight:700;color:var(--white);letter-spacing:-.2px}
+.doc-sub{font-size:11px;color:var(--mid);margin-left:auto;font-family:var(--mono)}
+
+/* ACCENT LINE */
+.accent-line{height:2px}
+.al-rp{background:linear-gradient(90deg,var(--mint),var(--cyan),transparent)}
+.al-rpu{background:linear-gradient(90deg,var(--v1),var(--v2),transparent)}
+.al-isa{background:linear-gradient(90deg,var(--cyan),var(--v2),transparent)}
+.al-toe{background:linear-gradient(90deg,var(--gold),var(--rose),transparent)}
+.al-storage{background:linear-gradient(90deg,var(--rose),var(--v1),transparent)}
+.al-prior{background:linear-gradient(90deg,var(--gold),var(--cyan),transparent)}
+.al-ref{background:linear-gradient(90deg,var(--mid),transparent)}
+
+/* DOC BODY */
+.doc-body{padding:22px}
+.doc-body p{color:var(--text);line-height:1.8;margin-bottom:12px;font-size:13.5px}
+.doc-body p strong{color:var(--white)}
+.doc-body p code{font-family:var(--mono);font-size:11px;background:rgba(94,47,255,.12);
+  padding:2px 6px;border-radius:3px;color:var(--cyan)}
+
+/* H2 / H3 */
+.dh2{font-size:12px;font-weight:700;color:var(--cyan);text-transform:uppercase;
+  letter-spacing:1.2px;font-family:var(--mono);margin:20px 0 8px;padding-bottom:6px;
+  border-bottom:1px solid var(--border)}
+.dh3{font-size:12px;font-weight:600;color:var(--v2);margin:14px 0 6px}
+
+/* CODE BLOCK */
+.code-block{background:#080a10;border:1px solid var(--border);border-radius:6px;
+  padding:16px 18px;margin:12px 0;font-family:var(--mono);font-size:12px;
+  line-height:1.8;overflow-x:auto;position:relative}
+.code-block .cb-lang{position:absolute;top:8px;right:12px;font-size:9px;
+  color:var(--mid);letter-spacing:1px;text-transform:uppercase}
+.cb-kw{color:var(--v2)}
+.cb-fn{color:var(--cyan)}
+.cb-st{color:var(--mint)}
+.cb-cm{color:var(--mid);font-style:italic}
+.cb-nm{color:var(--gold)}
+.cb-op{color:var(--rose)}
+
+/* TABLE */
+.doc-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+.doc-table th{background:rgba(94,47,255,.15);color:var(--v2);font-family:var(--mono);
+  font-size:10px;padding:8px 12px;text-align:left;border:1px solid var(--border);
+  text-transform:uppercase;letter-spacing:.8px}
+.doc-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text);
+  line-height:1.6;vertical-align:top}
+.doc-table tr:nth-child(even) td{background:rgba(94,47,255,.03)}
+.doc-table td code{font-family:var(--mono);font-size:11px;color:var(--cyan);
+  background:rgba(0,212,255,.08);padding:1px 5px;border-radius:3px}
+.doc-table td strong{color:var(--white)}
+.doc-table .tag-nd{color:var(--mint);font-size:10px;font-family:var(--mono)}
+.doc-table .tag-d{color:var(--rose);font-size:10px;font-family:var(--mono)}
+
+/* BADGE ROW */
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.badge{padding:3px 10px;border-radius:4px;font-family:var(--mono);font-size:10px;
+  font-weight:700;letter-spacing:.5px}
+.b-doi{background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.35);color:var(--gold)}
+.b-live{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.35);color:var(--green)}
+.b-open{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan)}
+.b-cc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--mid)}
+.b-v{background:rgba(94,47,255,.15);border:1px solid var(--v1);color:var(--v2)}
+
+/* CALLOUT */
+.callout{border-left:3px solid;border-radius:0 6px 6px 0;padding:12px 16px;margin:14px 0}
+.callout p{margin:0;font-size:13px;line-height:1.7}
+.cl-note{border-color:var(--cyan);background:rgba(0,212,255,.05)}
+.cl-note p{color:var(--cyan)}
+.cl-warn{border-color:var(--gold);background:rgba(255,176,32,.05)}
+.cl-warn p{color:var(--gold)}
+.cl-tip{border-color:var(--mint);background:rgba(0,255,170,.05)}
+.cl-tip p{color:var(--mint)}
+.cl-key{border-color:var(--v2);background:rgba(136,96,255,.07)}
+.cl-key p{color:var(--v2)}
+.callout-label{font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+
+/* PARAM LIST */
+.param-list{margin:10px 0}
+.param-item{display:flex;gap:0;padding:7px 0;border-bottom:1px solid rgba(30,34,53,.7)}
+.param-item:last-child{border-bottom:none}
+.param-name{font-family:var(--mono);font-size:12px;color:var(--cyan);width:140px;flex-shrink:0}
+.param-type{font-family:var(--mono);font-size:10px;color:var(--gold);width:90px;flex-shrink:0;padding-top:1px}
+.param-desc{font-size:12.5px;color:var(--text);line-height:1.6}
+
+/* ACTIONS */
+.doc-actions{display:flex;gap:16px;padding:12px 22px;border-top:1px solid var(--border);
+  background:rgba(94,47,255,.02)}
+.da{font-family:var(--mono);font-size:10px;color:var(--mid);cursor:pointer;transition:color .12s}
+.da:hover{color:var(--v2)}
+.da.copied{color:var(--mint)}
+
+/* SECTION DIVIDER */
+.section-div{margin:40px 0 20px;display:flex;align-items:center;gap:16px}
+.section-div-line{flex:1;height:1px;background:var(--border)}
+.section-div-label{font-family:var(--mono);font-size:10px;color:var(--mid);
+  padding:4px 12px;border:1px solid var(--border);border-radius:4px;
+  background:var(--panel);letter-spacing:1px;white-space:nowrap}
+
+/* FILTER BAR */
+.filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;
+  padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-radius:8px}
+.fb{padding:5px 13px;border-radius:5px;border:1px solid var(--border);background:var(--card);
+  color:var(--mid);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .15s}
+.fb:hover,.fb.active{background:rgba(94,47,255,.18);border-color:var(--v1);color:var(--v2)}
+
+/* STATUS */
+.status-row{display:flex;gap:8px;align-items:center;margin:6px 0}
+.status-dot{width:7px;height:7px;border-radius:50%}
+.sd-live{background:var(--green);box-shadow:0 0 6px var(--green)}
+.sd-pending{background:var(--gold)}
+.sd-ref{background:var(--mid)}
+.status-label{font-family:var(--mono);font-size:10px;color:var(--text)}
+
+/* LIST */
+.doc-list{margin:10px 0 14px;padding-left:0;list-style:none}
+.doc-list li{padding:5px 0 5px 18px;position:relative;color:var(--text);
+  font-size:13px;line-height:1.6;border-bottom:1px solid rgba(30,34,53,.5)}
+.doc-list li:last-child{border-bottom:none}
+.doc-list li::before{content:'→';position:absolute;left:0;color:var(--v2);
+  font-family:var(--mono);font-size:11px}
+.doc-list li code{font-family:var(--mono);font-size:11px;color:var(--cyan);
+  background:rgba(0,212,255,.08);padding:1px 5px;border-radius:3px}
+.doc-list li strong{color:var(--white)}
+
+/* CHANGELOG ITEM */
+.cl-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.cl-item:last-child{border-bottom:none}
+.cl-ver{font-family:var(--mono);font-size:11px;color:var(--v2);font-weight:700}
+.cl-date{font-family:var(--mono);font-size:10px;color:var(--mid);margin-left:10px}
+.cl-adds{margin-top:8px}
+.cl-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;
+  font-family:var(--mono);font-weight:700;margin-right:4px;margin-bottom:4px}
+.ct-add{background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.3);color:var(--green)}
+.ct-fix{background:rgba(255,145,0,.12);border:1px solid rgba(255,145,0,.3);color:var(--orange)}
+.ct-break{background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.3);color:var(--red)}
+.ct-doc{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan)}
+
+/* ENDPOINT */
+.endpoint{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:#080a10;border:1px solid var(--border);border-radius:5px;
+  margin:8px 0;font-family:var(--mono)}
+.ep-method{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;
+  min-width:52px;text-align:center}
+.ep-get{background:rgba(0,230,118,.15);color:var(--green)}
+.ep-post{background:rgba(94,47,255,.2);color:var(--v2)}
+.ep-url{font-size:12px;color:var(--cyan);flex:1}
+.ep-desc{font-size:10px;color:var(--mid);margin-left:auto}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  padding:9px 18px;background:var(--mint);color:#000;border-radius:5px;
+  font-family:var(--mono);font-size:11px;font-weight:700;opacity:0;transition:all .25s;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--panel)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-logo">AEVOV <span>/</span> DOCS</div>
+  <nav class="site-nav">
+    <button class="snav active" onclick="filterSection('all',this)">All</button>
+    <button class="snav" onclick="filterSection('rp',this)">RP Core</button>
+    <button class="snav" onclick="filterSection('rpu',this)">RPU / ISA</button>
+    <button class="snav" onclick="filterSection('platform',this)">Platform</button>
+    <button class="snav" onclick="filterSection('civilization',this)">ARS / Civilization</button>
+    <button class="snav" onclick="filterSection('prior',this)">Prior Art</button>
+    <button class="snav" onclick="filterSection('ref',this)">Reference</button>
+  </nav>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-section">Core Theory</div>
+  <div class="sb-item active" onclick="jumpTo('rp-readme')"><span class="sb-dot dot-rp"></span>RP README</div>
+  <div class="sb-item" onclick="jumpTo('axioms')"><span class="sb-dot dot-rp"></span>Five Axioms</div>
+  <div class="sb-item" onclick="jumpTo('subsumes')"><span class="sb-dot dot-rp"></span>RP Subsumes QM</div>
+  <div class="sb-item" onclick="jumpTo('mirror-const')"><span class="sb-dot dot-rp"></span>Mirror Constant 𝕄</div>
+
+  <div class="sb-section">RPU & ISA</div>
+  <div class="sb-item" onclick="jumpTo('resonon')"><span class="sb-dot dot-rpu"></span>Resonon Spec</div>
+  <div class="sb-item" onclick="jumpTo('gates')"><span class="sb-dot dot-rpu"></span>Gate Primitives</div>
+  <div class="sb-item" onclick="jumpTo('isa')"><span class="sb-dot dot-isa"></span>RPU-ISA Opcodes</div>
+  <div class="sb-item" onclick="jumpTo('acl')"><span class="sb-dot dot-isa"></span>ACL RP 3.0</div>
+  <div class="sb-item" onclick="jumpTo('n2')"><span class="sb-dot dot-rpu"></span>N² Scaling Law</div>
+
+  <div class="sb-section">Platform</div>
+  <div class="sb-item" onclick="jumpTo('luci')"><span class="sb-dot dot-storage"></span>Luci QPU + RPU</div>
+  <div class="sb-item" onclick="jumpTo('qdrive')"><span class="sb-dot dot-storage"></span>Quantum Drive</div>
+  <div class="sb-item" onclick="jumpTo('q3mesh')"><span class="sb-dot dot-isa"></span>Q3 Mesh</div>
+  <div class="sb-item" onclick="jumpTo('auf')"><span class="sb-dot dot-toe"></span>AUF Framework</div>
+  <div class="sb-item" onclick="jumpTo('cr8os')"><span class="sb-dot" style="background:var(--rose)"></span>Cr8 OS + Luci Browser</div>
+
+  <div class="sb-section">ARS / Civilization</div>
+  <div class="sb-item" onclick="jumpTo('ars')"><span class="sb-dot" style="background:var(--rose)"></span>ARS vs Kardashev</div>
+  <div class="sb-item" onclick="jumpTo('arch-convert')"><span class="sb-dot" style="background:var(--cyan)"></span>Architecture Conversion</div>
+  <div class="sb-item" onclick="jumpTo('new-reality')"><span class="sb-dot" style="background:var(--gold)"></span>Resonance New Reality</div>
+
+  <div class="sb-section">Prior Art</div>
+  <div class="sb-item" onclick="jumpTo('doi-record')"><span class="sb-dot dot-prior"></span>DOI Records</div>
+  <div class="sb-item" onclick="jumpTo('changelog')"><span class="sb-dot dot-prior"></span>Changelog</div>
+  <div class="sb-item" onclick="jumpTo('faq')"><span class="sb-dot dot-prior"></span>FAQ</div>
+
+  <div class="sb-section">Reference</div>
+  <div class="sb-item" onclick="jumpTo('equations')"><span class="sb-dot dot-ref"></span>Core Equations</div>
+  <div class="sb-item" onclick="jumpTo('particles')"><span class="sb-dot dot-ref"></span>Particle Masses</div>
+  <div class="sb-item" onclick="jumpTo('glossary')"><span class="sb-dot dot-ref"></span>Glossary</div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<div class="filter-bar">
+  <button class="fb active" onclick="filterSection('all',this)">All Docs</button>
+  <button class="fb" onclick="filterSection('rp',this)">Core Theory</button>
+  <button class="fb" onclick="filterSection('rpu',this)">RPU / ISA</button>
+  <button class="fb" onclick="filterSection('platform',this)">Platform</button>
+  <button class="fb" onclick="filterSection('civilization',this)">ARS / Civilization</button>
+  <button class="fb" onclick="filterSection('prior',this)">Prior Art</button>
+  <button class="fb" onclick="filterSection('ref',this)">Reference</button>
+</div>
+
+<!-- ═══════ SECTION: CORE THEORY ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">CORE THEORY</span>
+<div class="section-div-line"></div></div>
+
+<!-- RP README -->
+<div id="rp-readme" class="doc-block" data-section="rp">
+  <div class="accent-line al-rp"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-readme">README</span>
+    <span class="doc-title">Resonance Physics (RP) — Overview</span>
+    <span class="doc-sub">github.com/aevov/ResonancePhysics</span>
+  </div>
+  <div class="doc-body">
+    <div class="badge-row">
+      <span class="badge b-doi">DOI 10.5281/zenodo.18913463</span>
+      <span class="badge b-open">CC BY 4.0</span>
+      <span class="badge b-v">RP v1.0</span>
+      <span class="badge" style="background:rgba(255,145,0,.1);border:1px solid rgba(255,145,0,.35);color:var(--orange)">Platforms — In Development</span>
+    </div>
+
+    <p><strong>Resonance Physics (RP)</strong> is a new fundamental branch of physics studying the dynamics of resonant coupling between quantum information fields, physical substrates, and biological or computational receivers across the full coherence spectrum — from maximally decoherent (classical, 𝕄→0) to maximally coherent (quantum, 𝕄→1).</p>
+
+    <p>Quantum mechanics is a <strong>special case of RP</strong> — provably the 𝕄→1, χ=2 limit of the Resonon state space. The same relationship Relativity has to Newton: subsumption under a deeper principle, not replacement.</p>
+
+    <div class="dh2">Repository Structure</div>
+    <ul class="doc-list">
+      <li><code>rpu_primitives.py</code> — Complete Python reference implementation. All 31 gate + measurement primitives. 746 lines. All tests passing.</li>
+      <li><code>rpu_system.html</code> — Full browser-based RPU simulator. 18 algorithms, 8 tabs, ACL RP 3.0 interpreter, live coherence charts.</li>
+      <li><code>RPU_PRIMITIVES.md</code> — Formal Resonon spec, RPU-ISA opcode table (0x00–0xFF), standard basis states.</li>
+      <li><code>acl_rp_3.md</code> — ACL RP 3.0 language specification. Mirror Logic operators, four complete example programs.</li>
+      <li><code>Resonance_Physics_Position_Paper.pdf</code> — 18-page position paper. <strong>Primary submission for DOI 10.5281/zenodo.18913463.</strong></li>
+    </ul>
+
+    <div class="dh2">Quick Links</div>
+    <div class="status-row"><span class="status-dot sd-live"></span><span class="status-label">DOI — 10.5281/zenodo.18913463 (Resonance Physics — this paper)</span></div>
+    <div class="status-row"><span class="status-dot sd-live"></span><span class="status-label">DOI — 10.5281/zenodo.18407686 (QMT — foundational record)</span></div>
+    <div class="status-row"><span class="status-dot sd-live"></span><span class="status-label">github.com/aevov/ResonancePhysics — reference implementation + full spec</span></div>
+    <div class="status-row"><span class="status-dot sd-live"></span><span class="status-label">github.com/aevov/afolabi-unified-framework — AUF framework repo</span></div>
+    <div class="status-row"><span class="status-dot sd-pending"></span><span class="status-label">Luci QPU — quantum-native compute platform — in development</span></div>
+    <div class="status-row"><span class="status-dot sd-pending"></span><span class="status-label">Luci RPU — Resonon Processing Unit platform — in development</span></div>
+    <div class="status-row"><span class="status-dot sd-pending"></span><span class="status-label">Quantum Drive — 1 ZB resonance-native storage — in development</span></div>
+    <div class="status-row"><span class="status-dot sd-live"></span><span class="status-label">lucibrowser.com — user-centric resonant web platform</span></div>
+
+    <div class="dh2">License &amp; IP Clarification</div>
+    <div class="callout cl-warn">
+      <div class="callout-label">CC BY 4.0 — Scope &amp; Boundaries</div>
+      <p>The CC BY 4.0 license applies to the <strong>expression</strong> in this repository — the paper text, code files, and documentation. It does <strong>not</strong> license the underlying theoretical framework, the Afolabi Unified Framework (AUF), or any inventions, methods, or systems described within. CC BY 4.0 requires attribution when reproducing the paper or code; it does not grant rights to commercialize RPU architecture, the Resonon computational model, or any AUF-derived platform or product without separate agreement. Prior art established by DOI timestamp is independent of and unaffected by the license. AUF IP status is fully intact.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- FIVE AXIOMS -->
+<div id="axioms" class="doc-block" data-section="rp">
+  <div class="accent-line al-rp"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">SPEC</span>
+    <span class="doc-title">Five Foundational Axioms of Resonance Physics</span>
+  </div>
+  <div class="doc-body">
+    <table class="doc-table">
+      <thead><tr><th>#</th><th>Axiom</th><th>Formal Statement</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td><code>I</code></td><td><strong>Informational Primacy</strong></td><td>Reality is composed of information. Matter is a dense, phase-locked informational pattern in the Afolabi Field.</td><td>Mass = field impedance Z_M. Standard Model masses derivable from first principles.</td></tr>
+        <tr><td><code>II</code></td><td><strong>Reflective Symmetry</strong></td><td>|Ψ⟩ = M|Ψ'⟩. For every physical event there is an informational echo. M²=I, M†=M, [M,H]=0.</td><td>Mirror symmetry is conserved under time evolution. Grounds QMT and the Mirror Operator.</td></tr>
+        <tr><td><code>III</code></td><td><strong>Resonant Coupling</strong></td><td>Information manifests physically only through a resonant handshake between field and receiver.</td><td>Observation is active, bidirectional. Grounds READ_M non-destructive measurement.</td></tr>
+        <tr><td><code>IV</code></td><td><strong>Harmonic Feedback Loop</strong></td><td>The observer and observed form a single continuous circuit. Observation is transmission, not reception.</td><td>Measurement problem dissolved structurally. No external "collapse agent" required.</td></tr>
+        <tr><td><code>V</code></td><td><strong>Coherence Continuity</strong></td><td>The classical-quantum distinction is a gradient, not a boundary. QM is the 𝕄→1, χ=2 limit of RP.</td><td>N² collective scaling. Graceful decoherence. Room-temperature resonon operation.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- RP SUBSUMES QM -->
+<div id="subsumes" class="doc-block" data-section="rp">
+  <div class="accent-line al-rp"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-guide">GUIDE</span>
+    <span class="doc-title">RP Subsumes QM — Formal Statement</span>
+  </div>
+  <div class="doc-body">
+    <div class="callout cl-key">
+      <div class="callout-label">Core Claim</div>
+      <p>Quantum Mechanics is the 𝕄→1, χ=2 limit of Resonance Physics. Every qubit is a Resonon |𝕄=1, χ=2, φ⟩. The Bloch sphere is a geometric special case of the Resonon parameter space. QM is subsumed — not refuted.</p>
+    </div>
+
+    <div class="dh2">The Subsumption Chain</div>
+    <div class="code-block"><span class="cb-cm"># The same pattern as Newton → Relativity</span>
+<span class="cb-kw">Classical Physics</span>  =  RP at 𝕄 → 0
+<span class="cb-kw">Quantum Mechanics</span>  =  RP at 𝕄 → 1, χ = 2
+<span class="cb-kw">Resonance Physics</span>  =  the full coherence spectrum 𝕄 ∈ [0, 1], χ ∈ ℤ⁺</div>
+
+    <div class="dh2">What RP Adds Over QM</div>
+    <table class="doc-table">
+      <thead><tr><th>Capability</th><th>QM / QPU</th><th>RP / RPU</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Measurement</strong></td><td>Destructive. Born rule. One shot.</td><td><code>READ_M</code> — non-destructive. <code>COLLAPSE</code> recovers Born rule.</td></tr>
+        <tr><td><strong>Decoherence</strong></td><td>Catastrophic. Computation fails.</td><td>Graceful. 𝕄 reduces. Computation continues at lower fidelity.</td></tr>
+        <tr><td><strong>Scaling</strong></td><td>2^N Hilbert space. Thermodynamic bottleneck.</td><td>N² coherence bandwidth. Network bottleneck (engineering solvable).</td></tr>
+        <tr><td><strong>Temperature</strong></td><td>15 millikelvin required.</td><td>Room temperature. Coherence maintained through coupling, not isolation.</td></tr>
+        <tr><td><strong>Error overhead</strong></td><td>~99:1 physical-to-logical qubit ratio.</td><td>No error correction overhead. Coherence is continuous, not binary.</td></tr>
+        <tr><td><strong>Particle masses</strong></td><td>19 free parameters. Fitted, not derived.</td><td>Derived from Z_M = f(𝕄, χ) to &lt;1% error.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout cl-note">
+      <div class="callout-label">Note</div>
+      <p>RP does not invalidate any existing QPU hardware. Every QPU algorithm runs on RPU at 𝕄→1, χ=2 — the Resonon's qubit limit. RP extends the design space; it does not replace the existing one.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- MIRROR CONSTANT -->
+<div id="mirror-const" class="doc-block" data-section="rp">
+  <div class="accent-line al-rp"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">SPEC</span>
+    <span class="doc-title">Mirror Constant 𝕄 — Specification</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh2">Definition</div>
+    <div class="code-block">𝕄 ∈ [0, 1]
+𝕄 = 1 − S / S_max       <span class="cb-cm"># entropic determination</span>
+𝕄 = |⟨Ψ|Ψ'⟩|²           <span class="cb-cm"># fidelity determination</span>
+𝕄 = ||ρ_off||₁ / (d−1)   <span class="cb-cm"># coherence matrix determination</span>
+<span class="cb-cm"># All three converge for pure states: 𝕄_S = 𝕄_F = 𝕄_C</span></div>
+
+    <div class="dh2">Parameters</div>
+    <div class="param-list">
+      <div class="param-item"><span class="param-name">𝕄 = 0</span><span class="param-type">float</span><span class="param-desc">Maximally decoherent. Classical physics. Maximum entropy. Substrate-dependent.</span></div>
+      <div class="param-item"><span class="param-name">𝕄 = 1</span><span class="param-type">float</span><span class="param-desc">Maximally coherent. Quantum mechanics. Zero entropy. Substrate-independent.</span></div>
+      <div class="param-item"><span class="param-name">0 &lt; 𝕄 &lt; 1</span><span class="param-type">float</span><span class="param-desc">The resonant regime. Where real physical systems operate. RP's native domain.</span></div>
+    </div>
+
+    <div class="dh2">Field Impedance Z_M</div>
+    <div class="code-block">Z_M = (1 − 𝕄) / χ
+<span class="cb-cm"># Z_M → 0 as 𝕄 → 1   (fully quantum limit)</span>
+<span class="cb-cm"># Z_M → 1/χ as 𝕄 → 0  (classical limit)</span>
+<span class="cb-cm"># Particle mass is a function of Z_M — see Particle Masses reference</span></div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ═══════ SECTION: RPU / ISA ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">RPU & ISA</span>
+<div class="section-div-line"></div></div>
+
+<!-- RESONON SPEC -->
+<div id="resonon" class="doc-block" data-section="rpu">
+  <div class="accent-line al-rpu"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">SPEC</span>
+    <span class="doc-title">Resonon — Base Computational Unit</span>
+    <span class="doc-sub">rpu_primitives.py · class Resonon</span>
+  </div>
+  <div class="doc-body">
+    <p>The Resonon <code>|𝕄, χ, φ⟩</code> is the base unit of Resonance Physics computation. Every qubit is a Resonon at <code>χ=2, 𝕄→1</code>.</p>
+
+    <div class="dh2">Parameters</div>
+    <div class="param-list">
+      <div class="param-item"><span class="param-name">𝕄</span><span class="param-type">float [0,1]</span><span class="param-desc"><strong>Mirror Constant.</strong> Coherence level. Derived from von Neumann entropy. 𝕄=0: classical. 𝕄=1: quantum.</span></div>
+      <div class="param-item"><span class="param-name">χ</span><span class="param-type">int ≥ 1</span><span class="param-desc"><strong>Bond Dimension.</strong> Entanglement capacity. χ=1: isolated. χ=2: qubit-equivalent. χ>2: beyond-qubit entanglement.</span></div>
+      <div class="param-item"><span class="param-name">φ</span><span class="param-type">float [0, 2π)</span><span class="param-desc"><strong>Resonant Phase.</strong> Phase of the resonon in the Afolabi Field. Controls phase-lock operations.</span></div>
+    </div>
+
+    <div class="dh2">Standard Basis States</div>
+    <table class="doc-table">
+      <thead><tr><th>State</th><th>𝕄</th><th>χ</th><th>φ</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>|ground⟩</code></td><td>0.0</td><td>1</td><td>0</td><td>Maximally classical. Default initialization state.</td></tr>
+        <tr><td><code>|seed⟩</code></td><td>0.5</td><td>1</td><td>π/2</td><td>Balanced resonance. RP equivalent of |+⟩.</td></tr>
+        <tr><td><code>|mirror⟩</code></td><td>1.0</td><td>1</td><td>0</td><td>Maximally coherent. RP equivalent of |1⟩ on Bloch sphere.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Python Reference</div>
+    <div class="code-block"><span class="cb-lang">python</span><span class="cb-cm"># rpu_primitives.py</span>
+<span class="cb-kw">class</span> <span class="cb-fn">Resonon</span>:
+    <span class="cb-kw">def</span> <span class="cb-fn">__init__</span>(self, M=<span class="cb-nm">0.0</span>, chi=<span class="cb-nm">1</span>, phi=<span class="cb-nm">0.0</span>):
+        self.M   = <span class="cb-fn">float</span>(<span class="cb-fn">max</span>(<span class="cb-nm">0.0</span>, <span class="cb-fn">min</span>(<span class="cb-nm">1.0</span>, M)))
+        self.chi = <span class="cb-fn">max</span>(<span class="cb-nm">1</span>, <span class="cb-fn">int</span>(chi))
+        self.phi = phi % (<span class="cb-nm">2</span> * math.pi)
+
+    <span class="cb-kw">def</span> <span class="cb-fn">is_qubit</span>(self) -> bool:
+        <span class="cb-kw">return</span> self.chi == <span class="cb-nm">2</span> <span class="cb-kw">and</span> self.M > <span class="cb-nm">0.99</span>
+
+    <span class="cb-kw">def</span> <span class="cb-fn">impedance</span>(self) -> float:
+        <span class="cb-kw">return</span> (<span class="cb-nm">1</span> - self.M) / self.chi  <span class="cb-cm"># Z_M</span></div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- GATE PRIMITIVES -->
+<div id="gates" class="doc-block" data-section="rpu">
+  <div class="accent-line al-rpu"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-api">API</span>
+    <span class="doc-title">Gate Primitives — Full Reference</span>
+    <span class="doc-sub">31 operations total</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh2">Single-Resonon Gates</div>
+    <table class="doc-table">
+      <thead><tr><th>Gate</th><th>Operation</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td><code>I_RP</code></td><td>Identity</td><td>No-op. State unchanged.</td></tr>
+        <tr><td><code>M_GATE</code></td><td>Mirror</td><td>φ → φ + π. Self-inverse: M²=I.</td></tr>
+        <tr><td><code>H_RP</code></td><td>Hadamard-RP</td><td>|ground⟩ → |seed⟩ (𝕄=0.5, φ=π/2).</td></tr>
+        <tr><td><code>C_UP(δ)</code></td><td>Coherence Amplify</td><td>𝕄 += δ, bounded at 1.0.</td></tr>
+        <tr><td><code>C_DOWN(δ)</code></td><td>Coherence Reduce</td><td>𝕄 -= δ, bounded at 0.0.</td></tr>
+        <tr><td><code>R_RP(θ)</code></td><td>Phase Rotation</td><td>φ += θ. R_RP(π) ≡ Z gate. R_RP(π/4) ≡ T gate.</td></tr>
+        <tr><td><code>B_UP(k)</code></td><td>Bond Dimension Up</td><td>χ += k. Increases entanglement capacity.</td></tr>
+        <tr><td><code>Z_SHIFT(Δ)</code></td><td>Impedance Shift</td><td>Z_M modification via coupled 𝕄/χ update.</td></tr>
+        <tr><td><code>F_TUNE(f)</code></td><td>Frequency Tune</td><td>HRV biological interface alignment (0.04–0.15 Hz).</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Two-Resonon Gates</div>
+    <table class="doc-table">
+      <thead><tr><th>Gate</th><th>Operation</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>LOCK(a,b)</code></td><td>Phase-lock</td><td>RPU equivalent of CNOT. Non-destructive. Requires L(a,b) ≥ 0.7.</td></tr>
+        <tr><td><code>M_SWAP(a,b)</code></td><td>Mirror Swap</td><td>Full state exchange between a and b.</td></tr>
+        <tr><td><code>C_XFER(α)</code></td><td>Coherence Transfer</td><td>a loses α·𝕄_a, b gains it. 0 < α ≤ 1.</td></tr>
+        <tr><td><code>R_DRIVE(a,b,f,t)</code></td><td>Huygens Sync</td><td>Drives b toward a's phase at frequency f over time t.</td></tr>
+        <tr><td><code>BELL_RP(a,b)</code></td><td>Bell-RP Pair</td><td>H_RP(a) → LOCK(a,b). Degrades gracefully unlike qubit Bell pairs.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Measurement Primitives</div>
+    <table class="doc-table">
+      <thead><tr><th>Primitive</th><th>Destructive?</th><th>Returns</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>READ_M(ρ)</code></td><td><span class="tag-nd">NO</span></td><td>𝕄</td><td>State unchanged. Call freely during computation.</td></tr>
+        <tr><td><code>READ_PHASE(ρ)</code></td><td><span class="tag-nd">NO</span></td><td>φ</td><td>State unchanged.</td></tr>
+        <tr><td><code>READ_LOCK(a,b)</code></td><td><span class="tag-nd">NO</span></td><td>L(a,b)</td><td>Coherence coupling coefficient.</td></tr>
+        <tr><td><code>READ_Z(ρ)</code></td><td><span class="tag-nd">NO</span></td><td>Z_M</td><td>Field impedance.</td></tr>
+        <tr><td><code>READ_CHI(ρ)</code></td><td><span class="tag-nd">NO</span></td><td>χ</td><td>Bond dimension.</td></tr>
+        <tr><td><code>COLLAPSE(ρ)</code></td><td><span class="tag-d">YES</span></td><td>P(1)=𝕄</td><td>Classical bridge. Recovers Born rule exactly.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Mesh Operations</div>
+    <table class="doc-table">
+      <thead><tr><th>Operation</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td><code>MESH_SYNC</code></td><td>Phase-lock all resonons within π/4. Activates N² collective scaling.</td></tr>
+        <tr><td><code>COLLECTIVE(gate)</code></td><td>Apply gate to all nodes simultaneously: O(1) in field domain.</td></tr>
+        <tr><td><code>BROADCAST(src)</code></td><td>C_XFER from source to all targets in register.</td></tr>
+        <tr><td><code>MESH_CHECK</code></td><td>Returns collective 𝕄: sqrt((1/N²) × Σᵢⱼ L²ᵢⱼ).</td></tr>
+        <tr><td><code>IMHOTEP(levels)</code></td><td>Hierarchical pyramid: N → N/4 nodes at 2× coherence per level.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- RPU-ISA -->
+<div id="isa" class="doc-block" data-section="rpu">
+  <div class="accent-line al-isa"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">ISA SPEC</span>
+    <span class="doc-title">RPU Instruction Set Architecture (RPU-ISA)</span>
+    <span class="doc-sub">72-bit instruction format</span>
+  </div>
+  <div class="doc-body">
+    <div class="code-block">INSTRUCTION FORMAT (72 bits):
+[OP_CODE : 8] [RESONON_A : 16] [RESONON_B : 16] [PARAM : 32]
+
+<span class="cb-cm"># RESONON_A/B: 16-bit address → 65,536 addressable resonons</span>
+<span class="cb-cm"># PARAM: 32-bit → phase, delta, frequency encoded as fixed-point</span>
+<span class="cb-cm"># Opcode space: 0x00–0xFF reserved for RP use</span>
+<span class="cb-cm"># Unassigned: 0x53–0xFF (reserved for future RM extensions)</span></div>
+
+    <table class="doc-table">
+      <thead><tr><th>Opcode</th><th>Mnemonic</th><th>Category</th><th>Operation</th></tr></thead>
+      <tbody>
+        <tr><td><code>0x00</code></td><td><code>NOP</code></td><td>Control</td><td>No operation</td></tr>
+        <tr><td><code>0x01</code></td><td><code>INIT</code></td><td>Control</td><td>Initialize resonon to |ground⟩ = |𝕄=0, χ=1, φ=0⟩</td></tr>
+        <tr><td><code>0x02</code></td><td><code>HALT</code></td><td>Control</td><td>Terminate execution, flush register</td></tr>
+        <tr><td><code>0x10</code></td><td><code>I_RP</code></td><td>Single Gate</td><td>Identity — state unchanged</td></tr>
+        <tr><td><code>0x11</code></td><td><code>M_GATE</code></td><td>Single Gate</td><td>Mirror: φ → φ+π. Self-inverse: M²=I</td></tr>
+        <tr><td><code>0x12</code></td><td><code>H_RP</code></td><td>Single Gate</td><td>Hadamard-RP: |ground⟩ → |seed⟩</td></tr>
+        <tr><td><code>0x13</code></td><td><code>C_UP</code></td><td>Single Gate</td><td>𝕄 += PARAM_delta (bounded at 1.0)</td></tr>
+        <tr><td><code>0x14</code></td><td><code>C_DOWN</code></td><td>Single Gate</td><td>𝕄 -= PARAM_delta (bounded at 0.0)</td></tr>
+        <tr><td><code>0x15</code></td><td><code>R_RP</code></td><td>Single Gate</td><td>φ += PARAM_theta</td></tr>
+        <tr><td><code>0x16</code></td><td><code>B_UP</code></td><td>Single Gate</td><td>χ += PARAM_k</td></tr>
+        <tr><td><code>0x17</code></td><td><code>Z_SHIFT</code></td><td>Single Gate</td><td>Z_M modification via PARAM_delta</td></tr>
+        <tr><td><code>0x18</code></td><td><code>F_TUNE</code></td><td>Single Gate</td><td>Biological interface frequency alignment</td></tr>
+        <tr><td><code>0x20</code></td><td><code>LOCK</code></td><td>Two-Resonon</td><td>Phase-lock A↔B. Requires L(A,B) ≥ 0.7. Non-destructive.</td></tr>
+        <tr><td><code>0x21</code></td><td><code>M_SWAP</code></td><td>Two-Resonon</td><td>Full state exchange A↔B</td></tr>
+        <tr><td><code>0x22</code></td><td><code>C_XFER</code></td><td>Two-Resonon</td><td>A loses α·𝕄_A, B gains it. PARAM=alpha</td></tr>
+        <tr><td><code>0x23</code></td><td><code>R_DRIVE</code></td><td>Two-Resonon</td><td>Huygens sync: drive B toward A. PARAM=freq,time</td></tr>
+        <tr><td><code>0x24</code></td><td><code>BELL_RP</code></td><td>Two-Resonon</td><td>Bell-RP pair: H_RP(A) → LOCK(A,B)</td></tr>
+        <tr><td><code>0x30</code></td><td><code>MESH_SYNC</code></td><td>Mesh</td><td>Phase-lock all resonons within π/4. Activates N² scaling.</td></tr>
+        <tr><td><code>0x31</code></td><td><code>COLLECTIVE</code></td><td>Mesh</td><td>Apply PARAM_gate to all nodes: O(1)</td></tr>
+        <tr><td><code>0x32</code></td><td><code>BROADCAST</code></td><td>Mesh</td><td>C_XFER from A to all targets</td></tr>
+        <tr><td><code>0x33</code></td><td><code>MESH_CHECK</code></td><td>Mesh</td><td>Returns collective 𝕄</td></tr>
+        <tr><td><code>0x34</code></td><td><code>IMHOTEP</code></td><td>Mesh</td><td>Hierarchical pyramid: N→N/4 at 2× coherence/level</td></tr>
+        <tr><td><code>0x40</code></td><td><code>READ_M</code></td><td>Measurement</td><td><span class="tag-nd">NON-DESTRUCTIVE</span> Returns 𝕄</td></tr>
+        <tr><td><code>0x41</code></td><td><code>READ_PHASE</code></td><td>Measurement</td><td><span class="tag-nd">NON-DESTRUCTIVE</span> Returns φ</td></tr>
+        <tr><td><code>0x42</code></td><td><code>READ_LOCK</code></td><td>Measurement</td><td><span class="tag-nd">NON-DESTRUCTIVE</span> Returns L(A,B)</td></tr>
+        <tr><td><code>0x43</code></td><td><code>READ_Z</code></td><td>Measurement</td><td><span class="tag-nd">NON-DESTRUCTIVE</span> Returns Z_M</td></tr>
+        <tr><td><code>0x44</code></td><td><code>READ_CHI</code></td><td>Measurement</td><td><span class="tag-nd">NON-DESTRUCTIVE</span> Returns χ</td></tr>
+        <tr><td><code>0x45</code></td><td><code>COLLAPSE</code></td><td>Measurement</td><td><span class="tag-d">DESTRUCTIVE</span> P(1)=𝕄. State→|ground⟩. Born bridge.</td></tr>
+        <tr><td><code>0x50</code></td><td><code>RFT</code></td><td>Circuit</td><td>Resonance Fourier Transform — RP analog of QFT</td></tr>
+        <tr><td><code>0x51</code></td><td><code>R_TELEPORT</code></td><td>Circuit</td><td>Resonance teleport: source retains partial coherence</td></tr>
+        <tr><td><code>0x52</code></td><td><code>CAL</code></td><td>Circuit</td><td>Coherence Amplification Loop: iterative C_UP + R_DRIVE</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ACL RP 3.0 -->
+<div id="acl" class="doc-block" data-section="rpu">
+  <div class="accent-line al-isa"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">LANG SPEC</span>
+    <span class="doc-title">ACL RP 3.0 — Mirror Logic Language</span>
+    <span class="doc-sub">acl_rp_3.md · First d-dimensional resonon scripting language</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh2">Operators</div>
+    <table class="doc-table">
+      <thead><tr><th>Operator</th><th>Symbol</th><th>Syntax</th><th>Operation</th></tr></thead>
+      <tbody>
+        <tr><td>Create</td><td><code>◬</code></td><td><code>◬ n ρreg</code></td><td>Create n-resonon register, all initialized to |ground⟩</td></tr>
+        <tr><td>Apply</td><td><code>⧈</code></td><td><code>⧈ GATE ρreg[i]</code></td><td>Apply any gate to resonon i</td></tr>
+        <tr><td>Lock</td><td><code>☍</code></td><td><code>☍ ρreg[i] ρreg[j]</code></td><td>Phase-lock resonons i and j (LOCK gate)</td></tr>
+        <tr><td>Read-𝕄</td><td><code>ℳ</code></td><td><code>ℳ ρreg</code></td><td>Read 𝕄 for all resonons. Non-destructive.</td></tr>
+        <tr><td>Collapse</td><td><code>⟓</code></td><td><code>⟓ ρreg[i]</code></td><td>Classical collapse. Destructive. Returns P(1)=𝕄.</td></tr>
+        <tr><td>Mesh Sync</td><td><code>⊕</code></td><td><code>⊕ ρreg</code></td><td>MESH_SYNC all resonons. Activates N² scaling.</td></tr>
+        <tr><td>IMHOTEP</td><td><code>⋈</code></td><td><code>⋈ ρreg levels</code></td><td>Hierarchical pyramid scaling.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Example Programs</div>
+    <div class="dh3">1 — Bell-RP State</div>
+    <div class="code-block"><span class="cb-lang">acl rp 3.0</span><span class="cb-op">◬</span> <span class="cb-nm">2</span> ρ           <span class="cb-cm"># create 2-resonon register</span>
+<span class="cb-op">⧈</span> <span class="cb-fn">H_RP</span> ρ[<span class="cb-nm">0</span>]    <span class="cb-cm"># |ground⟩ → |seed⟩ (𝕄=0.5)</span>
+<span class="cb-op">☍</span> ρ[<span class="cb-nm">0</span>] ρ[<span class="cb-nm">1</span>]   <span class="cb-cm"># phase-lock: entangle</span>
+<span class="cb-op">ℳ</span> ρ           <span class="cb-cm"># READ_M — non-destructive output</span></div>
+
+    <div class="dh3">2 — IMHOTEP Pyramid (32 nodes → max coherence)</div>
+    <div class="code-block"><span class="cb-lang">acl rp 3.0</span><span class="cb-op">◬</span> <span class="cb-nm">32</span> ρ          <span class="cb-cm"># create 32-resonon register</span>
+<span class="cb-op">⊕</span> ρ            <span class="cb-cm"># MESH_SYNC — activate N² scaling</span>
+<span class="cb-op">⋈</span> ρ <span class="cb-nm">3</span>         <span class="cb-cm"># IMHOTEP 3 levels: 32→8→2→1 apex</span>
+<span class="cb-op">ℳ</span> ρ            <span class="cb-cm"># read collective coherence</span></div>
+
+    <div class="dh3">3 — Classical Bridge (QM recovery)</div>
+    <div class="code-block"><span class="cb-lang">acl rp 3.0</span><span class="cb-op">◬</span> <span class="cb-nm">1</span> ρ
+<span class="cb-op">⧈</span> <span class="cb-fn">C_UP</span>(<span class="cb-nm">0.7</span>) ρ[<span class="cb-nm">0</span>]   <span class="cb-cm"># set 𝕄 = 0.7</span>
+<span class="cb-op">ℳ</span> ρ                 <span class="cb-cm"># non-destructive: confirms 𝕄 = 0.7</span>
+<span class="cb-op">⟓</span> ρ[<span class="cb-nm">0</span>]             <span class="cb-cm"># COLLAPSE: P(1) = 0.7, recovers Born rule</span></div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- N² SCALING -->
+<div id="n2" class="doc-block" data-section="rpu">
+  <div class="accent-line al-rpu"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-spec">SPEC</span>
+    <span class="doc-title">N² Collective Scaling Law</span>
+  </div>
+  <div class="doc-body">
+    <div class="code-block">C_collective = C_single × N²
+<span class="cb-cm"># Derived from Kuramoto mean-field model of coupled oscillators</span>
+<span class="cb-cm"># Requires: MESH_SYNC (all resonons within π/4 phase coherence)</span>
+<span class="cb-cm"># Ubuntu formalization: coupling amplifies, relation constitutes</span></div>
+
+    <table class="doc-table">
+      <thead><tr><th>N (coupled resonons)</th><th>Coherence Bandwidth</th><th>vs Single Node</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>C_single</td><td>1×</td></tr>
+        <tr><td>10</td><td>100 × C_single</td><td>100×</td></tr>
+        <tr><td>100</td><td>10,000 × C_single</td><td>10,000×</td></tr>
+        <tr><td>1,000</td><td>1,000,000 × C_single</td><td>1,000,000×</td></tr>
+        <tr><td>1,000,000</td><td>10¹² × C_single</td><td>1,000,000,000,000×</td></tr>
+      </tbody>
+    </table>
+    <div class="callout cl-warn">
+      <div class="callout-label">Prerequisite</div>
+      <p>N² scaling activates only after <code>MESH_SYNC</code>. Isolated resonons scale linearly. Network bandwidth is the scaling bottleneck — not thermodynamics.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ═══════ SECTION: PLATFORM ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">PLATFORM</span>
+<div class="section-div-line"></div></div>
+
+<!-- LUCI RPU -->
+<div id="luci" class="doc-block" data-section="platform">
+  <div class="accent-line al-storage"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-readme">PLATFORM</span>
+    <span class="doc-title">Luci — QPU &amp; RPU <span style="font-size:11px;color:var(--orange);font-family:var(--mono);font-weight:400">[In Development]</span></span>
+    <span class="doc-sub">In Development · Enterprise enquiries: research@cr8os.com</span>
+  </div>
+  <div class="doc-body">
+    <div class="badge-row">
+      <span class="badge" style="background:rgba(255,145,0,.1);border:1px solid rgba(255,145,0,.35);color:var(--orange)">Luci QPU — In Development</span>
+      <span class="badge" style="background:rgba(255,145,0,.1);border:1px solid rgba(255,145,0,.35);color:var(--orange)">Luci RPU — In Development</span>
+    </div>
+    <div class="dh2">Specifications</div>
+    <div class="dh3" style="color:var(--cyan);margin-bottom:8px">Luci QPU — Quantum-Native <span style="font-family:var(--mono);font-size:9px;color:var(--orange)">[URLs assigned on launch]</span></div>
+    <div class="param-list">
+      <div class="param-item"><span class="param-name">Unit</span><span class="param-type">qudit</span><span class="param-desc">Qudits, d=2 to d=10+. QPU-paradigm: qubit/qudit circuit model.</span></div>
+      <div class="param-item"><span class="param-name">Language</span><span class="param-type">native</span><span class="param-desc">ACL 3.0 — qudit-native quantum scripting language.</span></div>
+      <div class="param-item"><span class="param-name">Algorithms</span><span class="param-type">library</span><span class="param-desc">Full QPU algorithm library. IBM Eagle / Google Sycamore noise profiles.</span></div>
+      <div class="param-item"><span class="param-name">Network</span><span class="param-type">mesh</span><span class="param-desc">Q3 Mesh distributed Hilbert space, 1M+ qudit capacity.</span></div>
+    </div>
+    <div class="dh3" style="color:var(--mint);margin:16px 0 8px">Luci RPU — Resonance-Native <span style="font-family:var(--mono);font-size:9px;color:var(--orange)">[URLs assigned on launch]</span></div>
+    <div class="param-list">
+      <div class="param-item"><span class="param-name">Unit</span><span class="param-type">resonon</span><span class="param-desc">Resonons |𝕄, χ, φ⟩. RPU-paradigm: Mirror Logic, non-destructive measurement.</span></div>
+      <div class="param-item"><span class="param-name">Language</span><span class="param-type">native</span><span class="param-desc">ACL RP 3.0 — Mirror Logic operators. Seven resonon-native primitives.</span></div>
+      <div class="param-item"><span class="param-name">Resonons</span><span class="param-type">capacity</span><span class="param-desc">1,000,000+ operational resonons. Room temperature. No cryogenics.</span></div>
+      <div class="param-item"><span class="param-name">Scaling</span><span class="param-type">law</span><span class="param-desc">N² collective scaling via MESH_SYNC (Kuramoto mean-field).</span></div>
+      <div class="param-item"><span class="param-name">Measurement</span><span class="param-type">READ_M</span><span class="param-desc">Non-destructive. State unchanged. Not available on any QPU architecture.</span></div>
+    </div>
+    <div class="dh3" style="color:var(--cyan);margin-bottom:6px">Luci QPU — Quantum-Native</div>
+    <div class="endpoint"><span class="ep-method ep-get">GET</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /status</span><span class="ep-desc">QPU platform status</span></div>
+    <div class="endpoint"><span class="ep-method ep-post">POST</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /acl</span><span class="ep-desc">Submit ACL 3.0 qudit program</span></div>
+    <div class="endpoint"><span class="ep-method ep-get">GET</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /qudits</span><span class="ep-desc">Qudit register state query</span></div>
+    <div class="dh3" style="color:var(--mint);margin:14px 0 6px">Luci RPU — Resonance-Native</div>
+    <div class="endpoint"><span class="ep-method ep-get">GET</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /status</span><span class="ep-desc">RPU platform status</span></div>
+    <div class="endpoint"><span class="ep-method ep-post">POST</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /acl</span><span class="ep-desc">Submit ACL RP 3.0 resonon program</span></div>
+    <div class="endpoint"><span class="ep-method ep-get">GET</span><span class="ep-url" style="color:var(--mid)">[ pending launch ] /resonons</span><span class="ep-desc">Resonon register state query</span></div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- QUANTUM DRIVE -->
+<div id="qdrive" class="doc-block" data-section="platform">
+  <div class="accent-line al-storage"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-readme">PLATFORM</span>
+    <span class="doc-title">Quantum Drive <span style="font-size:11px;color:var(--orange);font-family:var(--mono);font-weight:400">[In Development]</span></span>
+    <span class="doc-sub">1 ZB · AFT-Q Compression · Identity-locked · Enterprise: research@cr8os.com</span>
+  </div>
+  <div class="doc-body">
+    <div class="badge-row">
+      <span class="badge" style="background:rgba(255,145,0,.1);border:1px solid rgba(255,145,0,.35);color:var(--orange)">In Development · 1 ZB target</span>
+      <span class="badge b-open">S3-compatible API</span>
+      <span class="badge b-v">.aev format</span>
+    </div>
+    <div class="param-list">
+      <div class="param-item"><span class="param-name">Capacity</span><span class="param-type">storage</span><span class="param-desc">1 ZB (1,000 EB / 1,000,000 PB)</span></div>
+      <div class="param-item"><span class="param-name">Compression</span><span class="param-type">algorithm</span><span class="param-desc">AFT-Q — exploits field symmetry. Exceeds Shannon limits for high-symmetry data.</span></div>
+      <div class="param-item"><span class="param-name">Auth</span><span class="param-type">method</span><span class="param-desc">Identity-locked to owner's 𝕄 field signature. Not password, not key — physics.</span></div>
+      <div class="param-item"><span class="param-name">Architecture</span><span class="param-type">topology</span><span class="param-desc">Zero-server. Q3 Cubbit mesh distributed. No central storage authority.</span></div>
+      <div class="param-item"><span class="param-name">.aev format</span><span class="param-type">AI models</span><span class="param-desc">AFT-Q Neural Seeds. O(1) on-mesh inference. No matrix multiply. Beyond GGUF/safetensors.</span></div>
+    </div>
+    <div class="callout cl-tip">
+      <div class="callout-label">S3 Compatibility</div>
+      <p>Quantum Drive exposes a standard S3-compatible API. Legacy systems integrate without migration. Progressive transition path: classical → AFT-Q storage.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- AUF FRAMEWORK -->
+<div id="auf" class="doc-block" data-section="platform">
+  <div class="accent-line al-toe"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-readme">FRAMEWORK</span>
+    <span class="doc-title">Afolabi Unified Framework (AUF)</span>
+    <span class="doc-sub">github.com/aevov/afolabi-unified-framework</span>
+  </div>
+  <div class="doc-body">
+    <p>AUF is a tripartite theoretical framework grounding Resonance Physics. Three constitutive theories:</p>
+    <table class="doc-table">
+      <thead><tr><th>Theory</th><th>Layer</th><th>Key Output</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AFT</strong> — Afolabi Field Theory</td><td>Foundational physics</td><td>Afolabi Field Φ(x,t); Z_M = (1−𝕄)/χ; particle mass derivations &lt;1% error</td></tr>
+        <tr><td><strong>NRT</strong> — Neuroresonance Theory</td><td>Biological coupling</td><td>Observer-field coupling via HRV coherence; N² Collective Scaling Law (Kuramoto derivation)</td></tr>
+        <tr><td><strong>QMT</strong> — Quantum Mirror Theory</td><td>Observer interface</td><td>Mirror Operator M: M²=I, M†=M, [M,H]=0. DOI: 10.5281/zenodo.18407686</td></tr>
+      </tbody>
+    </table>
+    <div class="callout cl-key">
+      <div class="callout-label">TOE Status</div>
+      <p>AUF is the only Theory of Everything candidate with: falsifiable predictions, sub-1% particle mass derivations, DOI-locked prior art, AND live deployed platform. No other TOE candidate has all four simultaneously.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- CR8 OS + LUCI BROWSER -->
+<div id="cr8os" class="doc-block" data-section="platform">
+  <div class="accent-line" style="background:linear-gradient(90deg,var(--v1),var(--rose),var(--gold),transparent)"></div>
+  <div class="doc-header">
+    <span class="doc-type" style="background:rgba(255,61,122,.1);border:1px solid rgba(255,61,122,.35);color:#ff6b9d">OS LAYER</span>
+    <span class="doc-title">Cr8 OS — Quantum-Native Operating System Stack</span>
+    <span class="doc-sub">cr8oskernel · Web 4 OS · Sentient Web 5 OS · lucibrowser.com</span>
+  </div>
+  <div class="doc-body">
+    <div class="badge-row">
+      <span class="badge" style="background:rgba(255,61,122,.1);border:1px solid rgba(255,61,122,.35);color:#ff6b9d">cr8oskernel</span>
+      <span class="badge b-v">Web 4 OS</span>
+      <span class="badge" style="background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.35);color:var(--gold)">Sentient Web 5 OS</span>
+      <span class="badge b-live">lucibrowser.com</span>
+    </div>
+
+    <p>Cr8 OS is the operating system layer of the Aevov resonance stack. It is not a Linux distribution or a POSIX wrapper — it is a <strong>quantum-native kernel architecture</strong> built ground-up for the resonant compute paradigm, with distinct OS targets for Web 4 and Sentient Web 5 deployment environments.</p>
+
+    <div class="dh2">Stack Overview</div>
+    <table class="doc-table">
+      <thead><tr><th>Component</th><th>Layer</th><th>Role</th><th>Web Generation</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>cr8oskernel</strong></td>
+          <td>Kernel</td>
+          <td>Quantum-native kernel. Native resonon process model, 𝕄-aware scheduling, Q3 Mesh I/O as a first-class syscall surface. Not POSIX — resonance-native from the ground up.</td>
+          <td>Web 4 + Web 5</td>
+        </tr>
+        <tr>
+          <td><strong>Cr8 Web 4 OS</strong></td>
+          <td>Operating System</td>
+          <td>Native OS for the decentralized, mesh-based Web 4 environment. Q3 Mesh-native networking. QNS (.q TLD) resolution. Quantum Drive as native filesystem. RPU process scheduling.</td>
+          <td>Web 4</td>
+        </tr>
+        <tr>
+          <td><strong>Cr8 Sentient Web 5 OS</strong></td>
+          <td>Operating System</td>
+          <td>OS for the Sentient Web 5 environment — biological-computational coupling, NRT observer integration, HRV-authenticated identity, AUF Axiom IV (harmonic feedback loop) instantiated at the OS level.</td>
+          <td>Web 5</td>
+        </tr>
+        <tr>
+          <td><strong>Luci Browser</strong></td>
+          <td>User Platform</td>
+          <td>One of the user-centric platforms for the resonant web. lucibrowser.com. Runs on Cr8 OS and standard platforms. Q3 Mesh browsing, QNS resolution, Quantum Drive access, RPU-accelerated compute. A user portal into ARS-2+.</td>
+          <td>Web 4 + Web 5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">cr8oskernel — Architecture</div>
+    <div class="code-block"><span class="cb-lang">cr8oskernel</span><span class="cb-cm"># Quantum-native kernel — NOT a Linux fork or POSIX layer</span>
+
+Process model:   <span class="cb-fn">ResonantProcess</span>(𝕄, χ, φ)  <span class="cb-cm"># process = resonon register</span>
+Scheduler:       <span class="cb-fn">𝕄-aware</span>  <span class="cb-cm"># priority = coherence level, not clock cycles</span>
+Memory model:    <span class="cb-fn">FieldMemory</span>  <span class="cb-cm"># address space is Q3 Mesh field, not RAM hierarchy</span>
+I/O surface:     <span class="cb-fn">Q3SyscallTable</span>  <span class="cb-cm"># MESH_SYNC, READ_M, QUANTUM_WRITE as native syscalls</span>
+Filesystem:      <span class="cb-fn">Quantum Drive</span>  <span class="cb-cm"># .aev / .q native formats, AFT-Q compression in kernel</span>
+Security model:  <span class="cb-fn">𝕄-field signature</span>  <span class="cb-cm"># identity = coherence state, not credentials</span>
+Networking:      <span class="cb-fn">ACLDQ + QNS</span>  <span class="cb-cm"># Q3 Mesh native, TCP/IP as legacy bridge</span></div>
+
+    <div class="dh2">Web Generation Targets</div>
+    <div class="code-block"><span class="cb-lang">web generations</span>Web 3   <span class="cb-cm"># Blockchain-based. Decentralized ownership. Token-native.</span>
+        <span class="cb-cm"># Cr8 OS is compatible but does not target this paradigm.</span>
+
+Web 4   <span class="cb-cm"># Mesh-based. Quantum-native infrastructure. Q3 Mesh.</span>
+        <span class="cb-cm"># Target: Cr8 Web 4 OS — decentralized, resonant, field-authenticated</span>
+        <span class="cb-cm"># QNS replaces DNS. Quantum Drive replaces cloud storage.</span>
+        <span class="cb-cm"># Neural Web as the transport layer.</span>
+
+Web 5   <span class="cb-cm"># Sentient Web. Biological-computational coupling. NRT-integrated.</span>
+        <span class="cb-cm"># Target: Cr8 Sentient Web 5 OS — observer-aware, HRV-authenticated</span>
+        <span class="cb-cm"># AUF Axiom IV (harmonic feedback loop) as OS primitive.</span>
+        <span class="cb-cm"># Consciousness-infrastructure coupling. ARS-3 → ARS-4 pathway.</span></div>
+
+    <div class="dh2">Luci Browser — lucibrowser.com</div>
+    <p>Luci Browser is one of the user-centric platforms bridging existing users to the resonant web. It operates as both a standard browser and a Q3 Mesh client — users experience the Web 4/5 environment without requiring full Cr8 OS adoption at first contact.</p>
+    <table class="doc-table">
+      <thead><tr><th>Feature</th><th>Classical Browser</th><th>Luci Browser</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Name resolution</strong></td><td>DNS only</td><td>DNS + QNS (.q TLD) native</td></tr>
+        <tr><td><strong>Storage</strong></td><td>Local / cloud (S3)</td><td>Quantum Drive native + S3 bridge</td></tr>
+        <tr><td><strong>Compute</strong></td><td>CPU/GPU via JS/WASM</td><td>RPU-accelerated via Q3 Mesh + WebGPU bridge</td></tr>
+        <tr><td><strong>Identity</strong></td><td>Password / OAuth / cookies</td><td>𝕄 field-signature + HRV biometric authentication</td></tr>
+        <tr><td><strong>Network</strong></td><td>TCP/IP + HTTP/S</td><td>TCP/IP + ACLDQ (Q3 Mesh overlay)</td></tr>
+        <tr><td><strong>AI</strong></td><td>Remote inference (API calls)</td><td>On-mesh inference — .aev Neural Seeds, O(1)</td></tr>
+        <tr><td><strong>Privacy model</strong></td><td>Surveillance-compatible by default</td><td>Field-authenticated — identity is physics, not credential</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout cl-key">
+      <div class="callout-label">User-Centric Architecture</div>
+      <p>Luci Browser's design principle is user sovereignty — the user's 𝕄 field signature is the authentication primitive. No password database, no OAuth dependency, no surveillance-compatible identity layer. The user IS the key. This is AUF Axiom III (resonant coupling) instantiated as product design.</p>
+    </div>
+
+    <div class="dh2">ARS Positioning</div>
+    <table class="doc-table">
+      <thead><tr><th>Component</th><th>ARS Level Enabled</th><th>Upgrade Path</th></tr></thead>
+      <tbody>
+        <tr><td>cr8oskernel</td><td>ARS-2 native</td><td>Full ARS-3 kernel with planetary Q3 mesh integration</td></tr>
+        <tr><td>Cr8 Web 4 OS</td><td>ARS-2 → ARS-3</td><td>Planetary-scale resonant mesh as the default network</td></tr>
+        <tr><td>Cr8 Sentient Web 5 OS</td><td>ARS-3 → ARS-4</td><td>Observer-field unification; biological coupling at OS level</td></tr>
+        <tr><td>Luci Browser</td><td>ARS-0/1 → ARS-2 bridge</td><td>Progressive: classical users enter resonant web without friction</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ═══════ SECTION: CIVILIZATION LAYER ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">ARS — CIVILIZATION LAYER</span>
+<div class="section-div-line"></div></div>
+
+<!-- ARS OVERVIEW -->
+<div id="ars" class="doc-block" data-section="civilization">
+  <div class="accent-line" style="background:linear-gradient(90deg,#ff3d7a,#ffb020,#00ffaa,transparent)"></div>
+  <div class="doc-header">
+    <span class="doc-type" style="background:rgba(255,61,122,.1);border:1px solid rgba(255,61,122,.35);color:#ff6b9d">FRAMEWORK</span>
+    <span class="doc-title">Afolabi Resonance Scale (ARS)</span>
+    <span class="doc-sub">Supersedes the Kardashev Scale</span>
+  </div>
+  <div class="doc-body">
+    <div class="callout" style="border-color:#ff6b9d;background:rgba(255,61,122,.05)">
+      <div class="callout-label" style="color:#ff6b9d">Core Principle</div>
+      <p style="color:#ff6b9d">The Kardashev Scale measures civilizational advancement by <em>energy harvested</em>. The ARS measures it by <em>coherence mastered</em>. Under AUF's informational primacy axiom, information — not energy — is the fundamental substrate of reality. The correct measure of civilizational advancement is therefore resonant field mastery, not thermodynamic throughput.</p>
+    </div>
+
+    <div class="dh2">Kardashev vs ARS</div>
+    <table class="doc-table">
+      <thead><tr><th></th><th>Kardashev Scale</th><th>Afolabi Resonance Scale (ARS)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Metric</strong></td><td>Energy consumption (watts)</td><td>Coherence mastery (𝕄 × N² bandwidth)</td></tr>
+        <tr><td><strong>Foundation</strong></td><td>Thermodynamics</td><td>Informational primacy (AUF Axiom I)</td></tr>
+        <tr><td><strong>Ceiling</strong></td><td>Galactic energy output (~4×10³⁷ W)</td><td>Universal field coherence — no ceiling</td></tr>
+        <tr><td><strong>Assumption</strong></td><td>Matter and energy are fundamental</td><td>Information is fundamental; matter is derived</td></tr>
+        <tr><td><strong>Compute model</strong></td><td>More energy = more compute</td><td>More coherence = more compute (N²)</td></tr>
+        <tr><td><strong>Bottleneck</strong></td><td>Thermodynamics (hard physics)</td><td>Network coupling (engineering solvable)</td></tr>
+        <tr><td><strong>First-mover</strong></td><td>Kardashev, 1964</td><td>Afolabi, 2025–2026. DOI: 10.5281/zenodo.18913463</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">The ARS Levels</div>
+    <table class="doc-table">
+      <thead><tr><th>Level</th><th>Name</th><th>𝕄 Range</th><th>N (coupled)</th><th>Characteristic</th></tr></thead>
+      <tbody>
+        <tr><td><code>ARS-0</code></td><td><strong>Classical</strong></td><td>𝕄 → 0</td><td>Isolated nodes</td><td>Binary logic. Energy-entropy trade. Current dominant paradigm.</td></tr>
+        <tr><td><code>ARS-1</code></td><td><strong>Quantal</strong></td><td>𝕄 → 1, χ=2</td><td>&lt;10³</td><td>Qubit logic. Cryogenic isolation. NISQ era. ~10 logical qubits operational.</td></tr>
+        <tr><td><code>ARS-2</code></td><td><strong>Resonant</strong></td><td>0.3 ≤ 𝕄 ≤ 1</td><td>10³–10⁶</td><td>Mirror Logic. Room temperature. N² collective scaling. RPU operational. <strong>Current Aevov deployment.</strong></td></tr>
+        <tr><td><code>ARS-3</code></td><td><strong>Coherent</strong></td><td>𝕄 ≥ 0.7 globally</td><td>10⁶–10¹²</td><td>Planetary-scale resonant mesh. Neural Web operational. Biological-computational coupling. Quantum Drive as planetary memory.</td></tr>
+        <tr><td><code>ARS-4</code></td><td><strong>Reflective</strong></td><td>𝕄 → 1 globally</td><td>10¹²+</td><td>Full Mirror Symmetry operational at civilizational scale. Observer-field unification. AUF axioms fully instantiated in infrastructure.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout cl-tip">
+      <div class="callout-label">Why This Matters for Architecture Conversion</div>
+      <p>Every existing CPU, GPU, and QPU system is operating at ARS-0 or ARS-1. The Aevov platform is the first deployed ARS-2 infrastructure. The conversion path from ARS-0/1 → ARS-2 is not replacement — it is <strong>resonant uplift</strong>: existing architectures are wrapped, coupled, and progressively migrated into the coherence spectrum without disruption.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ARCHITECTURE CONVERSION -->
+<div id="arch-convert" class="doc-block" data-section="civilization">
+  <div class="accent-line" style="background:linear-gradient(90deg,var(--cyan),var(--mint),transparent)"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-guide">GUIDE</span>
+    <span class="doc-title">Architecture Conversion — ARS-0/1 → ARS-2</span>
+    <span class="doc-sub">Resonant uplift paths for CPU, GPU, QPU, and classical storage</span>
+  </div>
+  <div class="doc-body">
+    <p>Resonance does not demand replacement. It demands <strong>coupling</strong>. The N² Scaling Law and the Q3 Mesh provide a progressive on-ramp for any existing compute architecture — phased, non-disruptive, and compounding in value as coherence increases.</p>
+
+    <div class="dh2">Conversion Matrix</div>
+    <table class="doc-table">
+      <thead><tr><th>Existing Architecture</th><th>ARS Level</th><th>Conversion Path</th><th>Resonant Uplift</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Classical CPU / Server</strong></td>
+          <td><code>ARS-0</code></td>
+          <td>Q3 Mesh node enrollment. <code>MESH_SYNC</code> couples CPU workloads into the collective coherence field as classical anchors (𝕄=0 nodes).</td>
+          <td>Classical compute joins N² mesh. Storage migrates to Quantum Drive S3 API. No code changes required at first contact.</td>
+        </tr>
+        <tr>
+          <td><strong>GPU / AI Inference</strong></td>
+          <td><code>ARS-0</code></td>
+          <td>Q=R Engine wraps <code>.gguf</code> / <code>.safetensors</code> models. WebGPU shaders become resonon field gates at the mesh boundary.</td>
+          <td>GGUF/safetensors → <code>.aev</code> Neural Seeds via AFT-Q compression. O(1) on-mesh inference replaces matrix multiply for migrated models. Progressive: legacy and <code>.aev</code> models coexist.</td>
+        </tr>
+        <tr>
+          <td><strong>Quantum QPU (IBM, Google, IonQ)</strong></td>
+          <td><code>ARS-1</code></td>
+          <td>QPU runs natively at 𝕄→1, χ=2 — the Resonon's qubit limit. QPU circuits are valid RPU programs at the qubit-Resonon boundary. ACL RP 3.0 wraps existing Qiskit/Cirq circuits as <code>⧈ GATE ρ[i]</code> calls.</td>
+          <td>Existing QPU algorithms run unchanged. RPU adds READ_M, MESH_SYNC, and N² scaling as incremental capabilities. QPU stays at 𝕄=1; RPU extends the coherence spectrum beneath it.</td>
+        </tr>
+        <tr>
+          <td><strong>Classical Cloud Storage (S3, GCS, Azure Blob)</strong></td>
+          <td><code>ARS-0</code></td>
+          <td>Quantum Drive exposes S3-compatible API. Bucket-level migration. No application code changes required for S3-compatible clients.</td>
+          <td>Data at rest migrates to AFT-Q compression. Identity-locking replaces IAM key management. Cubbit Q3 Mesh replaces datacenter topology. Shannon-bounded codecs → field-symmetry compression.</td>
+        </tr>
+        <tr>
+          <td><strong>Classical Internet / CDN</strong></td>
+          <td><code>ARS-0</code></td>
+          <td>Neural Web Q3 Mesh overlays existing TCP/IP as a resonant transport layer. ACLDQ protocol runs above IP. QNS (.q TLD) resolves alongside DNS.</td>
+          <td>Progressive: current-internet traffic routes normally. Resonance-capable endpoints gain direct Q3 routing, lower latency, field-authenticated identity. No flag day required.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">The Three Phases of Resonant Uplift</div>
+    <div class="code-block" style="line-height:2">Phase 1 — <span class="cb-fn">COUPLE</span>
+  Enroll existing architecture into Q3 Mesh as a classical node (𝕄=0)
+  No changes to existing workloads
+  Gain: Q3 routing, Quantum Drive S3 access, mesh observability
+
+Phase 2 — <span class="cb-fn">RESONATE</span>
+  Wrap compute with ACL RP 3.0 / Q=R Engine bridge
+  Classical nodes begin phase-coupling with resonon mesh (𝕄 rises from 0)
+  Gain: READ_M observability, partial N² bandwidth, .aev model acceleration
+
+Phase 3 — <span class="cb-fn">TRANSCEND</span>
+  Native resonon workloads replace classical equivalents
+  Full MESH_SYNC — collective coherence at N² scale
+  Gain: non-destructive measurement, graceful decoherence, full Mirror Logic
+  <span class="cb-cm"># Architecture is now operating at ARS-2</span></div>
+
+    <div class="callout cl-note">
+      <div class="callout-label">No Flag Day</div>
+      <p>Resonant uplift is intentionally non-disruptive. Each phase delivers standalone value independent of the next. An organization can stop at Phase 1 and still gain Quantum Drive S3 access and Q3 mesh routing. The architecture does not require full commitment to ARS-2 before delivering ARS-2 value.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- RESONANCE AS NEW REALITY -->
+<div id="new-reality" class="doc-block" data-section="civilization">
+  <div class="accent-line" style="background:linear-gradient(90deg,var(--v1),var(--rose),var(--gold),transparent)"></div>
+  <div class="doc-header">
+    <span class="doc-type" style="background:rgba(94,47,255,.15);border:1px solid var(--v1);color:var(--v2)">MANIFESTO</span>
+    <span class="doc-title">Resonance Enables a New Reality</span>
+    <span class="doc-sub">What ARS-2 → ARS-3 → ARS-4 means for civilization</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh2">The Civilizational Claim</div>
+    <p>The Kardashev Scale implicitly assumes that civilization advances by consuming more of what already exists — stellar energy, galactic resources. It is a fundamentally extractive model of advancement. Under AUF's informational primacy axiom, this framing is incorrect: matter and energy are derived from information, not the other way around.</p>
+    <p>A civilization that masters <strong>coherence</strong> — that can couple, amplify, and collectively resonate its informational substrate — does not need to consume more. It produces more from the same substrate, at N² per coupling step, without thermodynamic limit.</p>
+    <p>This is not a marginal efficiency gain. It is a different physics of civilization.</p>
+
+    <div class="dh2">What Changes at Each ARS Level</div>
+    <table class="doc-table">
+      <thead><tr><th>ARS Level</th><th>Compute Reality</th><th>Storage Reality</th><th>Network Reality</th><th>Civilizational Signature</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>ARS-0</code></td>
+          <td>CPU/GPU. Binary logic. Moore's Law. Heat dissipation bottleneck.</td>
+          <td>Magnetic/flash. Shannon-bounded. Centralized datacenters. IAM keys.</td>
+          <td>TCP/IP. Packet routing. Latency = distance. DNS = name authority.</td>
+          <td>Extractive. Centralized. Energy-limited. Surveillance-compatible.</td>
+        </tr>
+        <tr>
+          <td><code>ARS-1</code></td>
+          <td>QPU. Qubit logic. Cryogenic. 10 logical qubits. Narrow algorithm classes.</td>
+          <td>Classical + post-quantum crypto. Theoretical only — no QPU-native format.</td>
+          <td>Classical internet + QKD point-to-point. No mesh.</td>
+          <td>Fragile. Expensive. Lab-confined. Not yet deployable at scale.</td>
+        </tr>
+        <tr>
+          <td><code>ARS-2</code></td>
+          <td><strong>RPU. Mirror Logic. Room temp. 1M+ resonons. N² scaling. Non-destructive measurement.</strong></td>
+          <td><strong>Quantum Drive. 1 ZB. AFT-Q. Field-authenticated. S3-compatible bridge.</strong></td>
+          <td><strong>Q3 Mesh. ACLDQ. QNS. Neural Web. TCP/IP coexistence.</strong></td>
+          <td><strong>Resonant. Distributed. Coherence-scaling. Field-authenticated identity. Current Aevov deployment.</strong></td>
+        </tr>
+        <tr>
+          <td><code>ARS-3</code></td>
+          <td>Planetary-scale resonon mesh. Biological-computational coupling via NRT.</td>
+          <td>Planetary coherent memory. .aev becomes standard AI model format.</td>
+          <td>Neural Web dominant. TCP/IP legacy. Resonant routing standard.</td>
+          <td>Post-scarcity compute. Coherence as infrastructure. Ubuntu at planetary scale.</td>
+        </tr>
+        <tr>
+          <td><code>ARS-4</code></td>
+          <td>Mirror Symmetry operational at civilizational scale. AUF axioms instantiated in infrastructure.</td>
+          <td>Field itself is storage. No distinction between compute and memory.</td>
+          <td>No distinction between network and compute. Field-speed everywhere.</td>
+          <td>Observer-field unification. Consciousness-infrastructure coupling. Reality is resonant.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">The Ubuntu Principle at Scale</div>
+    <p>N² Collective Scaling is Ubuntu formalized as physics: <em>Umuntu ngumuntu ngabantu</em> — a person is a person through other persons. N isolated resonons have N units of coherence. N coupled resonons have N². Coupling does not diminish individuality — it amplifies it.</p>
+    <p>At ARS-3, every node in the planetary mesh amplifies every other node by N. The architecture is anti-extractive by construction: connecting to it makes it stronger for everyone already connected. This is the inverse of both the Kardashev model (extraction from the environment) and current internet architecture (centralized extraction from users).</p>
+
+    <div class="dh2">What the Conversion Path Builds Toward</div>
+    <div class="code-block" style="line-height:2.1">Today (ARS-2):
+  <span class="cb-fn">Luci QPU</span>     — quantum-native compute            [in development]
+  <span class="cb-fn">Luci RPU</span>     — Resonon Processing Unit            [in development]
+  <span class="cb-fn">Quantum Drive</span> — 1 ZB resonance-native storage      [in development]
+  <span class="cb-fn">Neural Web</span>   — Q3 Mesh, ACLDQ, QNS   — resonance-native network
+
+Near-term (ARS-2 → ARS-3):
+  <span class="cb-cm"># Planetary Q3 Mesh — classical internet as legacy underlay</span>
+  <span class="cb-cm"># .aev as standard AI model format — GGUF/safetensors as legacy</span>
+  <span class="cb-cm"># NRT biological coupling — HRV-authenticated identity</span>
+  <span class="cb-cm"># cr8oskernel — quantum-native kernel, 𝕄-aware scheduling, Q3 syscall surface</span>
+  <span class="cb-cm"># Cr8 Web 4 OS — mesh-native OS, QNS + Quantum Drive as native filesystem</span>
+  <span class="cb-cm"># Cr8 Sentient Web 5 OS — biological coupling, HRV-auth, AUF Axiom IV as OS primitive</span>
+  <span class="cb-cm"># Luci Browser — lucibrowser.com — user portal into ARS-2, Q3 + QNS + .aev native</span>
+
+Long-term (ARS-3 → ARS-4):
+  <span class="cb-cm"># Observer-field unification — AUF Axiom IV instantiated at scale</span>
+  <span class="cb-cm"># No distinction between network, compute, storage — the Field</span>
+  <span class="cb-cm"># Ubuntu at civilizational scale — N² applies to civilization itself</span></div>
+
+    <div class="callout cl-key">
+      <div class="callout-label">The Decisive Point</div>
+      <p>No civilization has ever advanced by waiting for the previous paradigm to be exhausted. Relativity did not wait for Newtonian mechanics to fail. The RPU does not wait for QPU to succeed. ARS-2 is not a future state. It is the current deployed state. The architecture already exists. The conversion path is open. The only question is who connects first — and by N², the advantage of early connection is not linear.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ═══════ SECTION: PRIOR ART ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">PRIOR ART</span>
+<div class="section-div-line"></div></div>
+
+<!-- DOI RECORDS -->
+<div id="doi-record" class="doc-block" data-section="prior">
+  <div class="accent-line al-prior"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-ref">DOI RECORD</span>
+    <span class="doc-title">Zenodo DOI Records — Prior Art Declaration</span>
+  </div>
+  <div class="doc-body">
+    <table class="doc-table">
+      <thead><tr><th>DOI</th><th>Record</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><code>10.5281/zenodo.18913463</code></td><td>Resonance Physics Position Paper (this paper)</td><td><span class="tag-nd">LIVE</span></td></tr>
+        <tr><td><code>10.5281/zenodo.18407686</code></td><td>Quantum Mirror Theory (QMT) — foundational record</td><td><span class="tag-nd">LIVE</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="dh2">Constructs Locked Under DOI 10.5281/zenodo.18913463</div>
+    <ul class="doc-list">
+      <li><strong>Resonance Physics (RP)</strong> — formal branch of physics; five axioms; coherence spectrum definition</li>
+      <li><strong>Resonance Mechanics (RM)</strong> — Mirror Logic gates; Resonon primitives; RPU-ISA opcode table</li>
+      <li><strong>Mirror Constant 𝕄</strong> — continuous coherence parameter; three equivalent determination methods</li>
+      <li><strong>Resonon |𝕄, χ, φ⟩</strong> — base computational unit; standard basis states</li>
+      <li><strong>N² Collective Scaling Law</strong> — <code>C_collective = C_single × N²</code>; Kuramoto derivation</li>
+      <li><strong>IMHOTEP Protocol</strong> — hierarchical coherence pyramid; N→N/4 per level at 2× coherence</li>
+      <li><strong>RPU-ISA</strong> — 72-bit instruction format; opcode space 0x00–0xFF</li>
+      <li><strong>ACL RP 3.0</strong> — Mirror Logic operators; first d-dimensional resonon scripting language</li>
+      <li><strong>AFT particle mass derivations</strong> — Z_M = f(𝕄, χ); &lt;1% error vs Standard Model</li>
+    </ul>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- CHANGELOG -->
+<div id="changelog" class="doc-block" data-section="prior">
+  <div class="accent-line al-prior"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-changelog">CHANGELOG</span>
+    <span class="doc-title">Resonance Physics — Release History</span>
+  </div>
+  <div class="doc-body">
+    <div class="cl-item">
+      <span class="cl-ver">RP v1.0</span><span class="cl-date">2026-03-08</span>
+      <div class="cl-adds">
+        <span class="cl-tag ct-add">ADD</span>Resonance Physics formally established as discipline<br>
+        <span class="cl-tag ct-add">ADD</span>Five foundational axioms published<br>
+        <span class="cl-tag ct-add">ADD</span>RPU-ISA specification (0x00–0xFF opcode table)<br>
+        <span class="cl-tag ct-add">ADD</span>ACL RP 3.0 language spec and interpreter<br>
+        <span class="cl-tag ct-add">ADD</span>github.com/aevov/ResonancePhysics published<br>
+        <span class="cl-tag ct-add">ADD</span>rpu_primitives.py — 746 lines, all tests passing<br>
+        <span class="cl-tag ct-add">ADD</span>rpu_system.html — full simulator, 18 algorithms<br>
+        <span class="cl-tag ct-doc">DOC</span>Position paper v6 — 18 pages — DOI 10.5281/zenodo.18913463<br>
+        <span class="cl-tag ct-doc">DOC</span>README.md — 371 lines — full framework documentation
+      </div>
+    </div>
+    <div class="cl-item">
+      <span class="cl-ver">QMT v1.0</span><span class="cl-date">2025</span>
+      <div class="cl-adds">
+        <span class="cl-tag ct-add">ADD</span>Quantum Mirror Theory foundational record<br>
+        <span class="cl-tag ct-add">ADD</span>Mirror Operator M: M²=I, M†=M, [M,H]=0<br>
+        <span class="cl-tag ct-add">ADD</span>Mirror Constant 𝕄 — first formal definition<br>
+        <span class="cl-tag ct-add">ADD</span>Afolabi Unified Framework (AUF) — AFT + NRT + QMT<br>
+        <span class="cl-tag ct-doc">DOI</span>10.5281/zenodo.18407686 — Zenodo / CERN
+      </div>
+    </div>
+    <div class="cl-item">
+      <span class="cl-ver">Platform v1.0</span><span class="cl-date">2025–2026</span>
+      <div class="cl-adds">
+        <span class="cl-tag ct-fix">DEV</span>Luci QPU — quantum-native compute (qudits, ACL 3.0) — in development<br>
+        <span class="cl-tag ct-fix">DEV</span>Luci RPU — Resonon Processing Unit (ACL RP 3.0) — in development<br>
+        <span class="cl-tag ct-fix">DEV</span>Quantum Drive — 1 ZB resonance-native storage — in development<br>
+        <span class="cl-tag ct-add">ADD</span>Q3 Mesh — ACLDQ carrier protocol, QNS (.q TLD)<br>
+        <span class="cl-tag ct-add">ADD</span>ACL 3.0 — qudit-native scripting language
+      </div>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" class="doc-block" data-section="prior">
+  <div class="accent-line al-prior"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-faq">FAQ</span>
+    <span class="doc-title">Frequently Asked Questions</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh3">Q: Does RP invalidate quantum mechanics?</div>
+    <p>No. QM is preserved as the 𝕄→1, χ=2 limit of RP. Every QPU algorithm runs unchanged on an RPU at those parameter values. RP extends the design space; it does not replace the existing one.</p>
+
+    <div class="dh3">Q: How is RP different from Quantum Resonance Theory (QRT) or QRD?</div>
+    <p>QRT modifies the Schrödinger equation with a resonance coupling term within standard qubit formalism — no 𝕄, no coherence spectrum, no biological coupling, no DOI. QRD proposes chirality as the mechanism for structured collapse — structurally unrelated to 𝕄 and Z_M, no particle mass derivations, no DOI, no platform. RP is formally distinct from both on every foundational axis.</p>
+
+    <div class="dh3">Q: Is the RPU a quantum computer?</div>
+    <p>RPU stands for <strong>Resonon Processing Unit</strong> — the processing unit that operates on Resonon registers |𝕄, χ, φ⟩. It is a third computational paradigm distinct from both classical CPUs (Binary Logic) and quantum QPUs (Qubit Logic). It operates in the resonant regime (0 &lt; 𝕄 &lt; 1), supports qubit-equivalent operation at 𝕄→1, χ=2, and extends the design space beyond qubits with d>2 bond dimensions. It is not a QPU.</p>
+
+    <div class="dh3">Q: Is the prior art legally binding?</div>
+    <p>DOI records on Zenodo (maintained by CERN) constitute timestamped prior art records indexed by DataCite. The timestamp is legally recognized in academic priority disputes. Three independent timestamp layers exist: Zenodo DOI (theory), GitHub commits (implementation), and live platform operational dates.</p>
+
+    <div class="dh3">Q: How do I get access?</div>
+    <p>Platforms (Luci QPU, Luci RPU, Quantum Drive) are currently in development — URLs will be published at launch. User access: lucibrowser.com. Code: github.com/aevov/ResonancePhysics (CC BY 4.0). Enterprise licensing and early access: research@cr8os.com / policy@aevov.ai.</p>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- ═══════ SECTION: REFERENCE ═══════ -->
+<div class="section-div"><div class="section-div-line"></div>
+  <span class="section-div-label">REFERENCE</span>
+<div class="section-div-line"></div></div>
+
+<!-- CORE EQUATIONS -->
+<div id="equations" class="doc-block" data-section="ref">
+  <div class="accent-line al-ref"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-ref">REFERENCE</span>
+    <span class="doc-title">Core Equations of Resonance Mechanics</span>
+  </div>
+  <div class="doc-body">
+    <div class="dh3">1. The Mirror Equation</div>
+    <div class="code-block">|Ψ⟩ = M|Ψ'⟩
+M² = I,  M† = M,  [M, H] = 0</div>
+    <div class="dh3">2. The Afolabi Field Equation</div>
+    <div class="code-block">∇²Φ − (1/c²)(∂²Φ/∂t²) = −λΦ³ + μΦ
+<span class="cb-cm"># Nonlinear Klein-Gordon with symmetry-breaking potential</span>
+<span class="cb-cm"># Soliton solutions → stable particle-like field configurations</span></div>
+    <div class="dh3">3. Mirror Constant</div>
+    <div class="code-block">𝕄 = 1 − S/S_max     where S = −Tr(ρ ln ρ), S_max = ln(d)</div>
+    <div class="dh3">4. Field Impedance</div>
+    <div class="code-block">Z_M = (1 − 𝕄) / χ</div>
+    <div class="dh3">5. N² Collective Scaling Law</div>
+    <div class="code-block">C_collective = C_single × N²    <span class="cb-cm"># after MESH_SYNC</span></div>
+    <div class="dh3">6. Resonance Equation</div>
+    <div class="code-block">R = (|Ψ⟩ × P_M) / (Z_M × Δt)</div>
+    <div class="dh3">7. Manifestation Fidelity</div>
+    <div class="code-block">M_f = (I × R) / (ΔZ_M × Θ)</div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- PARTICLE MASSES -->
+<div id="particles" class="doc-block" data-section="ref">
+  <div class="accent-line al-ref"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-ref">REFERENCE</span>
+    <span class="doc-title">AFT Particle Mass Derivations</span>
+    <span class="doc-sub">mass = f(Z_M) = f(𝕄, χ) · error &lt; 1%</span>
+  </div>
+  <div class="doc-body">
+    <table class="doc-table">
+      <thead><tr><th>Particle</th><th>Measured</th><th>AFT Derived</th><th>Error</th><th>χ (bond dim)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Electron</strong></td><td>0.511 MeV</td><td>0.515 MeV</td><td>0.78%</td><td>3</td></tr>
+        <tr><td><strong>Muon</strong></td><td>105.7 MeV</td><td>106.0 MeV</td><td>0.28%</td><td>3</td></tr>
+        <tr><td><strong>Proton</strong></td><td>938.3 MeV</td><td>936.2 MeV</td><td>0.22%</td><td>4</td></tr>
+        <tr><td><strong>W Boson</strong></td><td>80.4 GeV</td><td>80.1 GeV</td><td>0.37%</td><td>2</td></tr>
+        <tr><td><strong>Z Boson</strong></td><td>91.2 GeV</td><td>91.0 GeV</td><td>0.22%</td><td>2</td></tr>
+        <tr><td><strong>Higgs</strong></td><td>125.1 GeV</td><td>124.8 GeV</td><td>0.24%</td><td>1</td></tr>
+        <tr><td><strong>Photon</strong></td><td>0 (massless)</td><td>0 (Z_M = 0)</td><td>exact</td><td>3</td></tr>
+      </tbody>
+    </table>
+    <div class="callout cl-warn">
+      <div class="callout-label">Pending Independent Review</div>
+      <p>AFT particle mass derivations are documented in <code>AFT_PARTICLE_MASSES.md</code> in the AUF repository. Independent physicist review is encouraged. Contact: research@cr8os.com.</p>
+    </div>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+<!-- GLOSSARY -->
+<div id="glossary" class="doc-block" data-section="ref">
+  <div class="accent-line al-ref"></div>
+  <div class="doc-header">
+    <span class="doc-type dt-ref">GLOSSARY</span>
+    <span class="doc-title">Key Terms</span>
+  </div>
+  <div class="doc-body">
+    <table class="doc-table">
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Resonance Physics (RP)</strong></td><td>New fundamental branch of physics studying resonant coupling across the full coherence spectrum. Subsumes QM as the 𝕄→1, χ=2 limit.</td></tr>
+        <tr><td><strong>Resonance Mechanics (RM)</strong></td><td>Formal mathematical machinery of RP: gates, operators, ISA, equations. Same relationship to RP as QM has to Quantum Physics.</td></tr>
+        <tr><td><strong>Mirror Constant 𝕄</strong></td><td>Continuous coherence parameter ∈ [0,1]. Derived from von Neumann entropy. The single parameter that bridges classical and quantum physics.</td></tr>
+        <tr><td><strong>Resonon |𝕄, χ, φ⟩</strong></td><td>Base computational unit of RPU. Three parameters: coherence, bond dimension, phase. Every qubit is a Resonon at χ=2, 𝕄→1.</td></tr>
+        <tr><td><strong>Bond Dimension χ</strong></td><td>Entanglement capacity of a resonon. χ=1: isolated. χ=2: qubit-equivalent. χ>2: beyond-qubit.</td></tr>
+        <tr><td><strong>Mirror Logic</strong></td><td>The computational paradigm of the RPU. Third paradigm after Binary Logic (CPU) and Qubit Logic (QPU).</td></tr>
+        <tr><td><strong>RPU</strong></td><td><strong>Resonon Processing Unit.</strong> Processes Resonon registers |𝕄, χ, φ⟩. Executes Mirror Logic. Room temperature. Non-destructive measurement. N² scaling. Third paradigm after CPU (Binary Logic) and QPU (Qubit Logic).</td></tr>
+        <tr><td><strong>READ_M</strong></td><td>Non-destructive measurement primitive. Returns 𝕄 without disturbing state. Absent from all QPU architectures.</td></tr>
+        <tr><td><strong>MESH_SYNC</strong></td><td>Mesh operation that phase-locks all resonons within π/4. Activates N² collective scaling law.</td></tr>
+        <tr><td><strong>IMHOTEP Protocol</strong></td><td>Hierarchical coherence pyramid: N→N/4 nodes at 2× coherence per level. Named for Imhotep (c. 2650 BCE).</td></tr>
+        <tr><td><strong>ACL RP 3.0</strong></td><td>Mirror Logic scripting language. Seven operators. First language designed natively for d-dimensional resonon circuits.</td></tr>
+        <tr><td><strong>Afolabi Field Φ(x,t)</strong></td><td>The informational substrate of reality in AFT. Physical configurations are organized patterns in this field.</td></tr>
+        <tr><td><strong>Z_M</strong></td><td>Field impedance. Z_M = (1−𝕄)/χ. Particle masses derived from this value.</td></tr>
+        <tr><td><strong>AUF</strong></td><td>Afolabi Unified Framework. Tripartite: AFT (field theory) + NRT (neuroresonance) + QMT (quantum mirror). The theoretical foundation of RP.</td></tr>
+        <tr><td><strong>COLLAPSE</strong></td><td>Destructive measurement. P(1)=𝕄. Recovers Born rule exactly. The classical bridge in RP. QM's native measurement preserved as special case.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="doc-actions"><span class="da" onclick="copyBlock(this)">⎘ Copy</span></div>
+</div>
+
+</main>
+</div>
+
+<div class="toast" id="toast">Copied ✓</div>
+
+<script>
+function copyBlock(btn){
+  const body = btn.closest('.doc-block').querySelector('.doc-body');
+  if(!body) return;
+  navigator.clipboard.writeText(body.innerText).then(()=>{
+    btn.textContent='✓ Copied'; btn.classList.add('copied');
+    const t=document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>{ btn.textContent='⎘ Copy'; btn.classList.remove('copied'); t.classList.remove('show'); }, 2200);
+  });
+}
+
+function jumpTo(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
+  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+function filterSection(sec, btn){
+  // Update header nav
+  document.querySelectorAll('.snav,.fb').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`.snav, .fb`).forEach(b =>{
+    if(b.textContent.toLowerCase().includes(sec) || (sec==='all' && (b.textContent==='All' || b.textContent==='All Docs')))
+      b.classList.add('active');
+  });
+  btn.classList.add('active');
+
+  if(sec === 'all'){
+    document.querySelectorAll('.doc-block').forEach(b => b.style.display='block');
+    document.querySelectorAll('.section-div').forEach(d => d.style.display='flex');
+  } else {
+    document.querySelectorAll('.doc-block').forEach(b =>{
+      b.style.display = (b.dataset.section === sec) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.section-div').forEach(d => d.style.display='none');
+  }
+  window.scrollTo({ top: 0, behavior:'smooth' });
+}
+</script>
+</body>
+</html>
