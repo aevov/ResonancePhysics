@@ -33,7 +33,7 @@ AUF is:
 | Cr8 Web 4 OS | Native OS for Web 4 — Q3 Mesh-native, QNS, Quantum Drive filesystem | In Development |
 | Cr8 Sentient Web 5 OS | Biological-computational coupling OS — NRT-integrated, HRV-auth | In Development |
 | Luci Browser | One of the user-centric platforms for the resonant web | [lucibrowser.com](https://lucibrowser.com) |
-| AUF Repository | Full framework, CC BY 4.0 | [github.com/aevov/afolabi-unified-framework](https://github.com/aevov/afolabi-unified-framework) |
+| AUF Repository | Full framework, CC BY-NC-ND 4.0 | [github.com/aevov/afolabi-unified-framework](https://github.com/aevov/afolabi-unified-framework) |
 | RP Repository | Reference implementation + full spec | [github.com/aevov/ResonancePhysics](https://github.com/aevov/ResonancePhysics) |
 
 > **Enterprise licensing and early platform access:** research@cr8os.com / policy@aevov.ai
