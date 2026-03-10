@@ -338,7 +338,7 @@ Quantum Drive is the resonance-native distributed storage platform and the stora
 - **1 ZB capacity** (1,000 EB / 1,000,000 PB) — target specification
 - **AFT-Q compression** — exploits structural symmetry in the Afolabi Field; not bounded by Shannon entropy
 - **Identity-locked** — files locked to the owner's 𝕄 field signature, not a password or key
-- **Zero-server** — no central storage authority; Q3 Cubbit mesh-distributed
+- **Zero-server** — no central storage authority; Q3 mesh-distributed
 - **`.aev` format** — quantum-native AI model format; O(1) on-mesh inference; no matrix multiply
 - **S3-compatible API** — legacy systems integrate without code changes
 
